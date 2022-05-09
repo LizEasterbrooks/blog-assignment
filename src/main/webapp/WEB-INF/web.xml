@@ -19,4 +19,14 @@
     <servlet-name>HomeServlet</servlet-name>
     <url-pattern>/HomeServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BlogPostServlet</display-name>
+    <servlet-name>BlogPostServlet</servlet-name>
+    <servlet-class>com.easterbrooks.blog.BlogPostServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BlogPostServlet</servlet-name>
+    <url-pattern>/BlogPostServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
