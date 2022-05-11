@@ -1,26 +1,22 @@
 package model;
 
-//TODO: IMPORT: import needed things...? (use Paul's example as a guide)
-/*NOTE: as of right now I don't need anything...? Feels wrong. We almost
- * 		include libraries in C/C++... something... I'm sure I'll run into
- * 		something I need eventually.
- */
-
-//TODO: USE THESE WITH COMMENT (?)
-//import java.util.List;
-//import java.util.ArrayList;
-
-
-class BlogPost {
-	private int id; //does this need to be an int? 16K+ possible id numbers. Will it matter? (what if they make more than that X_X?)
-	private int prev; //this would more or less link posts as a doubly linked list; is that necessary?
-	private int next; //this would more or less link posts as a doubly linked list; is that necessary?
-	//TODO: should date/time be represented as a string? (as of right now use is just to display, not calculate so...?)
-	private String dateTimePosted;
-	//TODO: consider adding a field for LAST EDIT
-	private String content; //for now, content is plain text; TODO: consider separate model to accommodate media, style, etc
-	//TODO: COMMENTS: the below needs to be a List of Comment objects... import that (? but same package...?)
-	//private ArrayList<String> comments; //since all Java objects are accessed by refs... is this not actually disgusting and horrible?
+public class BlogPost {
+	private int id; 					//TODO: consider: how would we handle more than the max size of int posts?
+	private int prev; 
+	private int next; 
+	private String dateTimePosted;		//TODO: split date and time and represent as date and time types in next version
+	private String dateTimeUpdated;		//TODO: split date and time and represent as date and time types in future iteration
+	private String content;  			//TODO: separate model to accommodate media or style in future iteration
+	private Comment topComment;
+	/*TOP_COMMENT REPRESENTATION OF ALL COMMENTS. As of right now  are intended to
+	 * related to each other as  FIFO doubly-linked list, using the DB id primary keys
+	 * as identifiers. Access to all other comments on a post will be handled by stepping through the
+	 * list using the recent most comment (topComment) at the access point. This requires additional methods
+	 * in future development to handle access, additions, and deletions of posts (including re-linking 
+	 * after deletion which would be represented as set to NULL in db). 
+	 * TODO consider better design to represent all comments on post.
+	 * TODO also consider design to represent replies (additional linked list mechanics?)
+	 */
 	
 	//Default constructor; create "blank" post
 	public BlogPost() {
@@ -28,81 +24,78 @@ class BlogPost {
 		prev = 0;
 		next = 0;
 		dateTimePosted="";
+		dateTimeUpdated="";
 		content="";
-		//WRONG: the below needs to be a List of Comment objects... import that (? but same package...?)
-		//but... where does the DB come into play? Do we want move all the text of each comment held in
-		//the database into an object the moment the page is accessed? The DB makes this complicated.
-		//comments = new ArrayList<String>();
+		topComment=null;
 	}
 	
 	//Overloaded constructor; requires args for all member fields
-	public BlogPost(int postID, int prevPostID, int nextPostID, String date, String postContent) {
-		id = postID; 
+	public BlogPost(int id, int prev, int next, String dateTimePosted, String dateTimeUpdated, String content, Comment topComment) {
+		this.id = id; 
 		//TODO: figure out if the doubly-linked list implied by this is a good idea in practice --> this means that if post deletion is a thing, there will need to be a servlet that handles updating the prev/next ids in the DB
-		prev = prevPostID;
-		next = nextPostID;
-		dateTimePosted = date;
-		content = postContent;
-		//WRONG: the below needs to be a List of Comment objects... import that (? but same package...?)
-		//...or maybe a list of id#? Figure out after figuring out DB interaction
-		//comments = newArrayList<String>();	
+		this.prev = prev;
+		this.next = next;
+		this.dateTimePosted = dateTimePosted;
+		this.dateTimeUpdated = dateTimeUpdated;
+		this.content = content;
+		this.topComment = topComment;	
 	}
-	
-	//TODO: consider other constructors as necessary
-	
-	//TODO: decide: should the set methods return a success code? (Is that a very Java thing to do?)
-	public int getID() {
+
+	public int getId() {
 		return id;
 	}
-	
-	public void setID(int idNum) {
-		id = idNum;
+
+	public void setId(int id) {
+		this.id = id;
 	}
-	
-	public int getPrevPostID() {
+
+	public int getPrev() {
 		return prev;
 	}
-	
-	public void setPrevPostID(int idNum) {
-		prev=idNum;
+
+	public void setPrev(int prev) {
+		this.prev = prev;
 	}
-	
-	public int getNextPostID( ){
+
+	public int getNext() {
 		return next;
 	}
-	
-	public void setNextPostID(int idNum) {
-		next=idNum;
+
+	public void setNext(int next) {
+		this.next = next;
 	}
-	
-	public void setDatePosted(String date) {
-		dateTimePosted = date;
-	}
-	
-	public String getdateTimePosted() {
+
+	public String getDateTimePosted() {
 		return dateTimePosted;
 	}
-	
+
+	public void setDateTimePosted(String dateTimePosted) {
+		this.dateTimePosted = dateTimePosted;
+	}
+
+	public String getDateTimeUpdated() {
+		return dateTimeUpdated;
+	}
+
+	public void setDateTimeUpdated(String dateTimeUpdated) {
+		this.dateTimeUpdated = dateTimeUpdated;
+	}
+
 	public String getContent() {
 		return content;
 	}
-	
-	public void setContent(String newContent) {
-		content = newContent;	
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 	/*note: this replaces any previous contents; logic for editing previous contents to be 
 	 * implemented with both get/set in the controller(s).*/
-	
-	//AFTER DEALING WITH THE COMMENT OBJECT AND THE DB ISSUES, TODO: make applicable methods
-	//some sort of get for comments (?)
-	//some sort of add for comments (?)
-	
-	
-	
-	
-	
-	
-	
-	
 
+	public Comment getTopComment() {
+		return topComment;
+	}
+
+	public void setTopComment(Comment topComment) {
+		this.topComment = topComment;
+	}
 }
