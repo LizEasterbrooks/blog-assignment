@@ -1,15 +1,13 @@
 package model;
 
-//TODO: IMPORT: import needed things...? (use Paul's example as a guide)
-
-class Comment {
-	//TODO: CREATE MORE STUBS TO OUTLINE THE FIELDS AND METHODS OF THIS CLASS
+public class Comment {
 	private int id;
-	private int prev;						//there is a prev(ious) comment if this is a reply
-	private int next;						//there is next comment if there is a reply to this
-	//TODO: should date/time be represented as a string? (as of right now use is just to display, not calculate so...?)
-	private String dateTimePosted;
-	private String commentText;				//TODO: consider separate model to accomodate media or style (?) 
+	private int prev;
+	private int next;
+	//TODO: add linked list logic to represent the idea of REPLIES in future iteration; int prevReply and int nextReply
+	private String dateTimePosted;	//TODO: split date and time and represent as date and time types in future iteration
+	//TODO: consider adding fields to represent date and time updated in future iteration
+	private String commentText;		//TODO: separate model to accommodate media or style in future iteration
 	
 	//TODO: ALL BELOW - in progress
 	
@@ -30,7 +28,7 @@ class Comment {
 		this.dateTimePosted = dateTimePosted;
 		this.commentText = commentText;
 	}
-	//TODO: get and set for all fields - in progress
+	
 	public int getId() {
 		return id;
 	}
@@ -71,8 +69,5 @@ class Comment {
 		this.commentText = commentText;
 	}
 	/*note: this replaces any previous contents; logic for editing previous contents to be 
-	 * implemented with both get/set in the controller(s).*/
-	
-	//TODO: ? more ?
-	
+	 * implemented with both get/set in the controller(s).*/	
 }

@@ -1,28 +1,32 @@
 package model;
 
-//TODO: IMPORT: import needed things...? (use Paul's example as a guide)
-
-class Blog {
-	//TODO: CREATE MORE STUBS TO OUTLINE THE FIELDS AND METHODS OF THIS CLASS - in progress
+public class Blog {
 	
 	private String title;
 	private String description;
-	/*REPRESENTATION OF COLLECTIVE BLOG POSTS. Should I just have the integer "id" for the top post
-	 * since they are all going to be linked by their ids in the database? Something else?
-	 * TODO decide how to represent all the blog posts the blog has.
+	private BlogPost topPost;
+	/*TOP_POST REPRESENTATION OF ALL BLOG POSTS. As of right now BlogPosts are intended to
+	 * related to each other as a FILO doubly-linked list, using the DB id primary keys
+	 * as identifiers. Access to all other blog posts will be handled by stepping through the
+	 * list using the recent most post (topPost) at the access point. This requires additional methods
+	 * in future development to handle access, additions, and deletions of posts (including re-linking 
+	 * after deletion which would be represented as set to NULL in db). 
+	 * TODO consider better ways to represent all blog posts a blog has without the overhead of loading 
+	 * all posts into a blog object from db.
 	 */
 	
-	//TODO: fill out the methods - in progress
 	//default constructor
 	public Blog() {
 		title = "";
 		description = "";
+		topPost = null;
 	}
 	
 	//constructor with all args
-	public Blog(String title, String description) {
+	public Blog(String title, String description, BlogPost topPost) {
 		this.title = title;
 		this.description = description;
+		this.topPost = topPost;
 	}
 	
 	public String getTitle() {
@@ -46,7 +50,12 @@ class Blog {
 	/*note: this replaces any previous contents; logic for editing previous contents to be 
 	 * implemented with both get/set in the controller(s).*/
 	
-	//TODO: BLOG POST: A get and a set for whatever form the blog posts take.... more?
+	public BlogPost getTopPost() {
+		return topPost;
+	}
 	
-
+	public void setTopPost(BlogPost topPost) {
+		this.topPost =  topPost;
+	}
+	//note: logic for accessing all posts handled by control layer; see note on topPost declaration above.
 }
